@@ -1,16 +1,18 @@
-function createCell(cellIndex) {
-    const container = document.querySelector('.container');
-    container.style.display = 'flex';
-    container.style.flexWrap = 'wrap';
-    container.style.justifyContent = 'center';
+const container = document.querySelector('.container');
 
+function createCell(cellIndex) {
     const cell = document.createElement('div');
     cell.setAttribute('class', 'cell');
     cell.setAttribute('id', `item${cellIndex}`);
+
     container.appendChild(cell);
 }
 
 function createGrid() {
+    container.style.display = 'flex';
+    container.style.flexWrap = 'wrap';
+    container.style.justifyContent = 'center';
+
     for (let i = 1; i <= 100; i++) {
         createCell(i);
     }
