@@ -2,51 +2,75 @@
 // write your moveX functions and after that
 // you can call these like moves[keycode]();
 
-const container = document.querySelector('.container');
-const moves = {
-    '97': moveLeft,
-    '115': moveDown,
-    '119': moveUp,
-    '100': moveRight
-};
+let cell = document.querySelector('.cell');
+let cells = document.querySelectorAll('.cell');
 
-function createSquare(squareIndex) {
-    const square = document.createElement('div');
-    square.setAttribute('class', 'cell');
-    square.setAttribute('id', squareIndex);
+(() => {
+    initialize()
+})();
 
-    container.appendChild(square);
+function initialize() {
+    createGrid();
+    cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => cell.addEventListener('click', activateCell));
+}
+
+function activateCell() {
+    this.classList.add('active');
+    cell = this;
+    cells.forEach(cell => cell.removeEventListener('click', activateCell));
+    keyPressed();
+}
+
+function createCell(x, y) {
+    let cell = document.createElement('div');
+    cell.setAttribute('class', 'cell');
+    cell.setAttribute('x', x);
+    cell.setAttribute('y', y);
+
+    document.querySelector('.container').appendChild(cell);
+
+    return cell;
 }
 
 function createGrid() {
-    container.style.display = 'flex';
-    container.style.flexWrap = 'wrap';
-    container.style.justifyContent = 'center';
-
-    for (let i = 1; i <= 100; i++) {
-        createSquare(i);
+    for (let x = 1; x <= 10; x++) {
+        for (let y = 1; y <= 10; y++) {
+            let newCell = createCell(x, y);
+        }
     }
+    // console.log(cellList.toString())
 }
 
-function moveLeft() {
-
+function move(newX, newY) {
+    let currentRow = parseInt(cell.getAttribute('x'));
+    let currentColumn = parseInt(cell.getAttribute('y'));
+    let nextCell = document.querySelector(`.cell[x="${currentRow + newX}"][y="${currentColumn + newY}"]`);
+    cell.classList.remove('active');
+    nextCell.classList.add('active');
+    cell = nextCell;
 }
 
-function moveDown() {
-
+function keyPressed() {
+    document.addEventListener("keydown", function (event) {
+        // event.preventDefault();
+        switch (event.key) {
+            case "ArrowLeft":
+                console.log('Left pressed')
+                move(0, -1);
+                break;
+            case "ArrowRight":
+                console.log('Right pressed')
+                move(0, 1);
+                break;
+            case "ArrowUp":
+                console.log('Up pressed')
+                move(-1, 0);
+                break;
+            case "ArrowDown":
+                console.log('Down pressed')
+                move(1, 0);
+                break;
+        }
+    })
 }
-
-function moveUp() {
-
-}
-
-function moveRight() {
-
-}
-
-function main() {
-    createGrid();
-
-}
-
-main();
