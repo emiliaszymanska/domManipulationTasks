@@ -45,6 +45,17 @@ function createGrid() {
 function move(newX, newY) {
     let currentRow = parseInt(cell.getAttribute('x'));
     let currentColumn = parseInt(cell.getAttribute('y'));
+
+    if ((currentColumn + newY > 10)) {
+        newY -= 1;
+    } else if (currentColumn + newY <= 0) {
+        newY += 1;
+    } else if (currentRow + newX > 10) {
+        newX -= 1;
+    } else if (currentRow + newX <= 0) {
+        newX += 1;
+    }
+
     let nextCell = document.querySelector(`.cell[x="${currentRow + newX}"][y="${currentColumn + newY}"]`);
     cell.classList.remove('active');
     nextCell.classList.add('active');
